@@ -3,6 +3,7 @@
     <properties maven-id="taglibs:standard:1.1.2" />
     <CLASSES>
       <root url="jar://$MAVEN_REPOSITORY$/taglibs/standard/1.1.2/standard-1.1.2.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/taglibs/standard/1.1.2/standard-1.1.2.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

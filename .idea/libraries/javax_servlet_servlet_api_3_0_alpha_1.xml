@@ -3,6 +3,7 @@
     <properties maven-id="javax.servlet:servlet-api:3.0-alpha-1" />
     <CLASSES>
       <root url="jar://$MAVEN_REPOSITORY$/javax/servlet/servlet-api/3.0-alpha-1/servlet-api-3.0-alpha-1.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/javax/servlet/servlet-api/3.0-alpha-1/servlet-api-3.0-alpha-1.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

@@ -19,8 +19,8 @@ public class MainController {
     @ResponseBody
     public String saveUser(){
         User user=new User();
-        user.setUsername("test");
-        user.setPassword("test");
+        user.setUsername("admin");
+        user.setPassword("admin");
         user.setSex("男");
         user.setStatus(0);
         user.setAdmin(0);
