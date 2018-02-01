@@ -7,11 +7,14 @@ import com.lyc.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class MainController {
@@ -41,5 +44,15 @@ public class MainController {
     public String logout(HttpServletRequest request){
         request.getSession().setAttribute("user",null);
         return "logout";
+    }
+
+    @RequestMapping("userList")
+    @ResponseBody
+    public List<User> userList(@RequestBody User user){
+        List<User> users=userService.list(user);
+        if(users==null){
+            return new ArrayList<>();
+        }
+        return users;
     }
 }

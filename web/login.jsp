@@ -68,19 +68,19 @@
       <div class="alert fade in alert-danger" style="display: none;">
         <i class="icon-remove close" data-dismiss="alert">
         </i>
-        输入用户名密码进入.
+        请输入学号和密码！
       </div>
       <div class="alert fade in alert-danger" style="display: none;">
         <i class="icon-remove close" data-dismiss="alert">
         </i>
-        用户名或密码错误！
+        学号或密码错误！
       </div>
       <div class="form-group">
         <div class="input-icon">
           <i class="icon-user">
           </i>
-          <input type="text" name="username" class="form-control" placeholder="用户名"
-                 autofocus="autofocus" data-rule-required="true" data-msg-required="请输入用户名."
+          <input type="text" name="username" class="form-control" placeholder="学号"
+                 autofocus="autofocus" data-rule-required="true" data-msg-required="请输入学号"
           />
         </div>
       </div>

@@ -13,7 +13,7 @@ public class Utils {
     public static String index(HttpServletRequest request, Model model,String module){
         User user =  (User) request.getSession().getAttribute("user");
         model.addAttribute("username",user.getUsername());
-        if(user.getAdmin()==0){
+        if(user.getAdmin()==3){
             model.addAttribute("nav"," <li>\n" +
                     "          <a href=\"/student\">\n" +
                     "            <i class=\"icon-desktop\">\n" +

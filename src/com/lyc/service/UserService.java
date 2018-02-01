@@ -7,6 +7,8 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
 
@@ -21,18 +23,52 @@ public class UserService {
         getSession().save(user);
     }
 
-    public User load(int id){
-        return getSession().load(User.class,id);
-    }
-
     public User login(int id,String password){
-//        String hql="select User from User where id="+id+" and password='"+password+"'";
-//        Query<User> query=getSession().createQuery(hql);
-//        return query.uniqueResult();
         User user=getSession().load(User.class,id);
         if(user!=null&&user.getPassword().equals(password)){
             return user;
         }
         return null;
     }
+
+    public List<User> list(User user){
+        String hql="from User where ";
+        if(user.getId()!=0){
+            hql+="id ="+user.getId()+" and ";
+        }
+        if(user.getAdmin()!=0){
+            hql+="admin ="+user.getAdmin()+" and ";
+        }
+        if(user.getEnrollment_time()!=null){
+            hql+="enrollment_time >"+user.getEnrollment_time()+" and ";
+        }
+        if(user.getGraduation_time()!=null){
+            hql+="graduation_time <"+user.getGraduation_time()+" and ";
+        }
+        if(user.getGrade()!=null){
+            hql+="getGrade ="+user.getGrade()+" and ";
+        }
+        if(user.getClasses()!=null){
+            hql+="classes ="+user.getClasses()+" and ";
+        }
+        if(user.getIdentify()!=null){
+            hql+="identify ="+user.getIdentify()+" and ";
+        }
+        if(user.getSex()!=null){
+            hql+="sex ="+user.getSex()+" and ";
+        }
+        if(user.getStatus()!=0){
+            hql+="status ="+user.getStatus()+" and ";
+        }
+        if(user.getUsername()!=null){
+            hql+="username ="+user.getUsername();
+        }
+        hql=hql.trim();
+        if(hql.endsWith("and")){
+            hql=hql.substring(0,hql.length()-3);
+        }
+        Query<User> query=getSession().createQuery(hql,User.class);
+        return query.list();
+    }
+
 }

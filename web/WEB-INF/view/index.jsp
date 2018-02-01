@@ -65,17 +65,9 @@
   <![endif]-->
   <script type="text/javascript" src="/plugins/sparkline/jquery.sparkline.min.js">
   </script>
-  <script type="text/javascript" src="/plugins/flot/jquery.flot.min.js">
+  <script type="text/javascript" src="/plugins/datatables/jquery.dataTables.min.js">
   </script>
-  <script type="text/javascript" src="/plugins/flot/jquery.flot.tooltip.min.js">
-  </script>
-  <script type="text/javascript" src="/plugins/flot/jquery.flot.resize.min.js">
-  </script>
-  <script type="text/javascript" src="/plugins/flot/jquery.flot.time.min.js">
-  </script>
-  <script type="text/javascript" src="/plugins/flot/jquery.flot.growraf.min.js">
-  </script>
-  <script type="text/javascript" src="/plugins/easy-pie-chart/jquery.easy-pie-chart.min.js">
+  <script type="text/javascript" src="/plugins/datatables/DT_bootstrap.js">
   </script>
   <script type="text/javascript" src="/plugins/daterangepicker/moment.min.js">
   </script>
@@ -112,10 +104,6 @@
   </script>
   <script type="text/javascript" src="/assets/js/demo/pages_calendar.js">
   </script>
-  <script type="text/javascript" src="/assets/js/demo/charts/chart_filled_blue.js">
-  </script>
-  <script type="text/javascript" src="/assets/js/demo/charts/chart_simple.js">
-  </script>
 </head>
 
 <body>
@@ -129,7 +117,7 @@
         </a>
       </li>
     </ul>
-    <a class="navbar-brand" href="index.html">
+    <a class="navbar-brand" href="/index">
       <img src="/assets/img/logo.png" alt="logo" />
       <strong>
         Me
@@ -137,17 +125,10 @@
       Admin
     </a>
     <a href="#" class="toggle-sidebar bs-tooltip" data-placement="bottom"
-       data-original-title="Toggle navigation">
+       data-original-title="左侧菜单控制">
       <i class="icon-reorder">
       </i>
     </a>
-    <ul class="nav navbar-nav navbar-left hidden-xs hidden-sm">
-      <li>
-        <a href="#">
-          控制台
-        </a>
-      </li>
-    </ul>
     <ul class="nav navbar-nav navbar-right">
       <li class="dropdown user">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
