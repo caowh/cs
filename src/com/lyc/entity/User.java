@@ -15,7 +15,6 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-
     @Column
     private String username;
 
@@ -45,4 +44,7 @@ public class User {
 
     @Column
     private Date graduation_time;
+
+    @Column(unique=true)
+    private String identify;
 }

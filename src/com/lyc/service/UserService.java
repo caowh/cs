@@ -25,9 +25,14 @@ public class UserService {
         return getSession().load(User.class,id);
     }
 
-    public String login(int id,String password){
-        String hql="select username from User where id="+id+" and password='"+password+"'";
-        Query<String> query=getSession().createQuery(hql);
-        return query.uniqueResult();
+    public User login(int id,String password){
+//        String hql="select User from User where id="+id+" and password='"+password+"'";
+//        Query<User> query=getSession().createQuery(hql);
+//        return query.uniqueResult();
+        User user=getSession().load(User.class,id);
+        if(user!=null&&user.getPassword().equals(password)){
+            return user;
+        }
+        return null;
     }
 }

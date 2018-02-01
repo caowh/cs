@@ -16,15 +16,7 @@ import java.util.List;
  */
 public class CommonInterceptor extends HandlerInterceptorAdapter {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
-    /*
-     * 利用正则映射到需要拦截的路径
 
-    private String mappingURL;
-
-    public void setMappingURL(String mappingURL) {
-               this.mappingURL = mappingURL;
-    }
-  */
     private List<String> ignoreUrls;
 
 
@@ -61,11 +53,10 @@ public class CommonInterceptor extends HandlerInterceptorAdapter {
         if(user == null){
             response.setCharacterEncoding("UTF-8");
             log.info("Interceptor：跳转到login页面！");
-            request.getRequestDispatcher("index.jsp").include(request, response);
+            request.getRequestDispatcher("login.jsp").include(request, response);
             return false;
         }else
             return true;
-//        return true;
     }
 
     /**
