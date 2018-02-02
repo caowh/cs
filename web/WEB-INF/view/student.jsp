@@ -16,14 +16,8 @@
                 <div class="form-actions fluid">
                     <div class="row">
                         <div class="col-md-12">
-                            <a href="#" id="searchA" class="btn btn-primary">
-                                查询
-                            </a>
-                            <a href="#" id="execA" class="btn btn-primary">
-                                执行
-                            </a>
-                            <a href="#" id="moveA" class="btn btn-primary">
-                                移动
+                            <a href="/student/add" class="btn btn-primary">
+                                添加
                             </a>
                             <a href="#" id="deleteA" class="btn btn-danger">
                                 删除
@@ -85,6 +79,29 @@
 </div>
 <script>
     $(document).ready(function () {
+        // 对Date的扩展，将 Date 转化为指定格式的String
+        // 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符，
+        // 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字)
+        // 例子：
+        // (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423
+        // (new Date()).Format("yyyy-M-d h:m:s.S")   ==> 2006-7-2 8:9:4.18
+        Date.prototype.Format = function(fmt) {
+            var o = {
+                "M+" : this.getMonth()+1,         //月份
+                "d+" : this.getDate(),          //日
+                "h+" : this.getHours(),          //小时
+                "m+" : this.getMinutes(),         //分
+                "s+" : this.getSeconds(),         //秒
+                "q+" : Math.floor((this.getMonth()+3)/3), //季度
+                "S" : this.getMilliseconds()       //毫秒
+            };
+            if(/(y+)/.test(fmt))
+                fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));
+            for(var k in o)
+                if(new RegExp("("+ k +")").test(fmt))
+                    fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+            return fmt;
+        }
         $('#userTable').DataTable({
             language:{
                 sProcessing : "处理中...",
@@ -138,6 +155,9 @@
                 if(data.length>0){
                     for(var i=0;i<data.length;i++){
                         data[i]['check']='<input type="checkbox" class="uniform">';
+                        if(data[i]['birth_date']!=null)data[i]['birth_date']=new Date(data[i]['birth_date']).Format("yyyy-MM-dd");
+                        if(data[i]['enrollment_time']!=null)data[i]['enrollment_time']=new Date(data[i]['enrollment_time']).Format("yyyy-MM-dd");
+                        if(data[i]['graduation_time']!=null)data[i]['graduation_time']=new Date(data[i]['graduation_time']).Format("yyyy-MM-dd");
                     }
                     $('#userTable').dataTable().fnAddData(data,true);
                 }

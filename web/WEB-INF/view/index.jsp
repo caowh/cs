@@ -23,7 +23,7 @@
   <link href="/assets/css/plugins.css" rel="stylesheet" type="text/css" />
   <link href="/assets/css/responsive.css" rel="stylesheet" type="text/css"
   />
-  <link href="assets/css/icons.css" rel="stylesheet" type="text/css" />
+  <link href="/assets/css/icons.css" rel="stylesheet" type="text/css" />
   <link rel="stylesheet" href="/assets/css/fontawesome/font-awesome.min.css">
   <!--[if IE 7]>
   <link rel="stylesheet" href="/assets/css/fontawesome/font-awesome-ie7.min.css">
@@ -64,6 +64,8 @@
   </script>
   <![endif]-->
   <script type="text/javascript" src="/plugins/sparkline/jquery.sparkline.min.js">
+  </script>
+  <script type="text/javascript" src="/plugins/validation/jquery.validate.min.js">
   </script>
   <script type="text/javascript" src="/plugins/datatables/jquery.dataTables.min.js">
   </script>
