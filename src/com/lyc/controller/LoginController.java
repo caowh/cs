@@ -26,7 +26,7 @@ public class LoginController {
         int id;
         try {
             id = Integer.parseInt(request.getParameter("id"));
-            User user=userService.login(id,request.getParameter("password"));
+            User user=userService.loadLogin(id,request.getParameter("password"));
             if(user==null){
                 result="failed";
             }else {

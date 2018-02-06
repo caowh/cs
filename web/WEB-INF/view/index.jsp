@@ -79,6 +79,8 @@
   </script>
   <script type="text/javascript" src="/plugins/fullcalendar/fullcalendar.min.js">
   </script>
+  <script type="text/javascript" src="/plugins/bootbox/bootbox.min.js">
+  </script>
   <script type="text/javascript" src="/plugins/noty/jquery.noty.js">
   </script>
   <script type="text/javascript" src="/plugins/noty/layouts/top.js">

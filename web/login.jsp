@@ -61,7 +61,7 @@
   </strong>Admin</div>
 <div class="box">
   <div class="content">
-    <form class="form-vertical login-form" action="index.html" method="post">
+    <form class="form-vertical login-form">
       <h3 class="form-title">
         登录
       </h3>

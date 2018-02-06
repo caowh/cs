@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class MainController {
@@ -55,4 +57,25 @@ public class MainController {
         }
         return users;
     }
+
+
+    @RequestMapping("updateUser")
+    @ResponseBody
+    public Map updateUser(@RequestBody User user){
+        Map map=new HashMap();
+        try {
+            userService.update(user);
+            map.put("result","success");
+        } catch (Exception e) {
+            map.put("result","failed");
+            String message=e.getMessage();
+            if(message.contains("UK_9l5en6oc0n83mdf145gralf06")){
+                map.put("message","身份证号码已存在");
+            }else {
+                map.put("message",e.getMessage());
+            }
+        }
+        return map;
+    }
+
 }
