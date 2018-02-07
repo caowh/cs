@@ -3,10 +3,10 @@
     <div class="page-header">
         <div class="page-title">
             <h3>
-                学生一卡通编辑
+                管理员编辑
             </h3>
             <span>
-                您可以在该界面修改学生一卡通的信息!
+                您可以在该界面更新学生一卡通的管理员账号信息!
               </span>
         </div>
     </div>
@@ -17,7 +17,7 @@
                     <h4>
                         <i class="icon-reorder">
                         </i>
-                        编辑一卡通
+                        管理员账号信息编辑
                     </h4>
                 </div>
                 <div class="widget-content">
@@ -36,10 +36,10 @@
                     <form class="form-horizontal row-border" id="validate">
                         <div class="form-group">
                             <label class="col-md-3 control-label">
-                                卡号
+                                ID
                             </label>
                             <div class="col-md-3">
-                                <input type="text" class="form-control" name="id" value="${user.id}"readonly/>
+                                <input type="text" class="form-control" name="id" value="${user.id}" readonly/>
                             </div>
                         </div>
                         <div class="form-group">
@@ -95,47 +95,6 @@
                                 <span class="help-block">修改身份证号时，密码同时更新为身份证号后六位（如需还原密码，可直接点击【提交】按钮）！</span>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">
-                                年级
-                                <span class="required">
-                                          *
-                                        </span>
-                            </label>
-                            <div class="col-md-9">
-                                <input type="text" class="form-control required" name="grade" value="${user.grade}">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">
-                                班级
-                                <span class="required">
-                                          *
-                                        </span>
-                            </label>
-                            <div class="col-md-9">
-                                <input type="text" class="form-control required" name="classes" value="${user.classes}">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">
-                                入学日期
-                                <span class="required">
-                                          *
-                                        </span>
-                            </label>
-                            <div class="col-md-2">
-                                <input type="date" class="form-control required" name="enrollment_time"  id="enrollment_time">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">
-                                毕业日期
-                            </label>
-                            <div class="col-md-2">
-                                <input type="date" class="form-control" name="graduation_time"  id="graduation_time">
-                            </div>
-                        </div>
                         <div class="form-actions align-center">
                             <input type="submit" value="提交" class="btn btn-primary">
                         </div>
@@ -166,10 +125,6 @@
         if(sex=='男'){$('#sex option:eq(0)').attr('selected','selected')}else {$('#sex option:eq(1)').attr('selected','selected')}
         var birth_date='${user.birth_date}'
         if(birth_date!=null)$('#birth_date').val(birth_date.substring(0,10))
-        var enrollment_time='${user.enrollment_time}'
-        if(enrollment_time!=null)$('#enrollment_time').val(enrollment_time.substring(0,10))
-        var graduation_time='${user.graduation_time}'
-        if(graduation_time!=null)$('#graduation_time').val(graduation_time.substring(0,10))
         $("#validate").validate({
             submitHandler: function(){
                     $.ajax({
@@ -180,7 +135,7 @@
                     dataType:"json",
                     success:function(data){
                         if(data.result=="success"){
-                            window.location.href='/student/editPage?id='+'${user.id}';
+                            window.location.href='/normalManager/editPage?id='+'${user.id}';
                         }else {
                             $('#alert1 .alert-danger span').html('修改失败，'+data.message)
                             $('#alert1 .alert-danger').removeClass('hide-default')

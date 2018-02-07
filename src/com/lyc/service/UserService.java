@@ -24,8 +24,11 @@ public class UserService extends HibernateDaoSupport{
 
     public User loadLogin(int id,String password){
         User user=getHibernateTemplate().load(User.class,id);
-        if(user!=null&&user.getPassword().equals(password)){
-            return user;
+        try {
+            if(user.getPassword().equals(password)){
+                return user;
+            }
+        } catch (Exception e) {
         }
         return null;
     }
@@ -116,6 +119,9 @@ public class UserService extends HibernateDaoSupport{
         }
         if(user.getUsername()!=null){
             hql+="username ='"+user.getUsername()+"'";
+        }
+        if(user.getPassword()!=null){
+            hql+="password ='"+user.getPassword()+"'";
         }
         hql=hql.trim();
         if(hql.endsWith(",")){

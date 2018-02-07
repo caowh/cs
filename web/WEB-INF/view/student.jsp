@@ -204,7 +204,7 @@
                         $.ajax({
                             type: "post",
                             contentType: "application/json; charset=utf-8",
-                            url: "/student/deleteList",
+                            url: "/deleteUserByIds",
                             data: JSON.stringify(ids),
                             dataType: "json",
                             success: function (data) {

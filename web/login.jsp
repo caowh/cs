@@ -79,7 +79,7 @@
         <div class="input-icon">
           <i class="icon-user">
           </i>
-          <input type="text" name="username" class="form-control" placeholder="学号"
+          <input type="text" name="username" class="form-control" placeholder="卡号、ID"
                  autofocus="autofocus" data-rule-required="true" data-msg-required="请输入学号"
           />
         </div>

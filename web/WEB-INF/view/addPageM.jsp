@@ -3,10 +3,10 @@
     <div class="page-header">
         <div class="page-title">
             <h3>
-                学生一卡通编辑
+                管理员添加
             </h3>
             <span>
-                您可以在该界面修改学生一卡通的信息!
+                您可以在该界面对添加学生一卡通信息的管理员账号!
               </span>
         </div>
     </div>
@@ -17,8 +17,16 @@
                     <h4>
                         <i class="icon-reorder">
                         </i>
-                        编辑一卡通
+                        学生一卡通管理员账号添加
                     </h4>
+                    <div class="toolbar no-padding">
+                        <div class="btn-group">
+                                  <span class="btn btn-xs widget-collapse">
+                                    <i class="icon-angle-down">
+                                    </i>
+                                  </span>
+                        </div>
+                    </div>
                 </div>
                 <div class="widget-content">
                     <div class="tab-content" id="alert1">
@@ -36,21 +44,13 @@
                     <form class="form-horizontal row-border" id="validate">
                         <div class="form-group">
                             <label class="col-md-3 control-label">
-                                卡号
-                            </label>
-                            <div class="col-md-3">
-                                <input type="text" class="form-control" name="id" value="${user.id}"readonly/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">
                                 姓名
                                 <span class="required">
                                           *
                                         </span>
                             </label>
                             <div class="col-md-6">
-                                <input type="text" class="form-control required" name="username" value="${user.username}"/>
+                                <input type="text" class="form-control required" name="username"/>
                             </div>
                         </div>
                         <div class="form-group">
@@ -61,8 +61,8 @@
                                         </span>
                             </label>
                             <div class="col-md-9">
-                                <select name="sex" id="sex" class="form-control required">
-                                    <option value="男">
+                                <select name="sex" class="form-control required">
+                                    <option value="男" selected>
                                         男
                                     </option>
                                     <option value="女">
@@ -79,7 +79,7 @@
                                         </span>
                             </label>
                             <div class="col-md-2">
-                                <input type="date" class="form-control required" name="birth_date"  id="birth_date">
+                                <input type="date" class="form-control required" name="birth_date">
                             </div>
                         </div>
                         <div class="form-group">
@@ -90,50 +90,9 @@
                                         </span>
                             </label>
                             <div class="col-md-9">
-                                <input type="text" class="form-control required" name="identify"  value="${user.identify}"
+                                <input type="text" class="form-control required" name="identify"
                                        data-rule-required="true" data-rule-rangelength="[18,18]" data-msg-rangelength="字符长度必须为{0}位" data-msg-required="请输入身份证号">
-                                <span class="help-block">修改身份证号时，密码同时更新为身份证号后六位（如需还原密码，可直接点击【提交】按钮）！</span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">
-                                年级
-                                <span class="required">
-                                          *
-                                        </span>
-                            </label>
-                            <div class="col-md-9">
-                                <input type="text" class="form-control required" name="grade" value="${user.grade}">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">
-                                班级
-                                <span class="required">
-                                          *
-                                        </span>
-                            </label>
-                            <div class="col-md-9">
-                                <input type="text" class="form-control required" name="classes" value="${user.classes}">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">
-                                入学日期
-                                <span class="required">
-                                          *
-                                        </span>
-                            </label>
-                            <div class="col-md-2">
-                                <input type="date" class="form-control required" name="enrollment_time"  id="enrollment_time">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">
-                                毕业日期
-                            </label>
-                            <div class="col-md-2">
-                                <input type="date" class="form-control" name="graduation_time"  id="graduation_time">
+                                <span class="help-block">密码默认为身份证号后六位！</span>
                             </div>
                         </div>
                         <div class="form-actions align-center">
@@ -162,27 +121,23 @@
             });
             return o;
         };
-        var sex='${user.sex}'
-        if(sex=='男'){$('#sex option:eq(0)').attr('selected','selected')}else {$('#sex option:eq(1)').attr('selected','selected')}
-        var birth_date='${user.birth_date}'
-        if(birth_date!=null)$('#birth_date').val(birth_date.substring(0,10))
-        var enrollment_time='${user.enrollment_time}'
-        if(enrollment_time!=null)$('#enrollment_time').val(enrollment_time.substring(0,10))
-        var graduation_time='${user.graduation_time}'
-        if(graduation_time!=null)$('#graduation_time').val(graduation_time.substring(0,10))
         $("#validate").validate({
             submitHandler: function(){
+                    var obj=$('form').serializeObject();
+                    obj['admin']=1
                     $.ajax({
-                    url:"/updateUser",
+                    url:"/addUser",
                     type:"POST",
-                    data:JSON.stringify($('form').serializeObject()),
+                    data:JSON.stringify(obj),
                     contentType:"application/json",
                     dataType:"json",
                     success:function(data){
                         if(data.result=="success"){
-                            window.location.href='/student/editPage?id='+'${user.id}';
+                            $('#alert1 .alert-success span').html('添加成功，ID为：'+data.id)
+                            $('#alert1 .alert-success').removeClass('hide-default')
+
                         }else {
-                            $('#alert1 .alert-danger span').html('修改失败，'+data.message)
+                            $('#alert1 .alert-danger span').html('添加失败，'+data.message)
                             $('#alert1 .alert-danger').removeClass('hide-default')
                         }
                     }

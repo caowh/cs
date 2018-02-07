@@ -6,7 +6,7 @@
                 学生一卡通添加
             </h3>
             <span>
-                您可以在该界面对学生一卡通进行单个或者批量添加!
+                您可以在该界面对学生信息录入并生成一卡通账号!
               </span>
         </div>
     </div>
@@ -17,7 +17,7 @@
                     <h4>
                         <i class="icon-reorder">
                         </i>
-                        单个添加
+                        学生一卡通添加
                     </h4>
                     <div class="toolbar no-padding">
                         <div class="btn-group">
@@ -92,6 +92,7 @@
                             <div class="col-md-9">
                                 <input type="text" class="form-control required" name="identify"
                                        data-rule-required="true" data-rule-rangelength="[18,18]" data-msg-rangelength="字符长度必须为{0}位" data-msg-required="请输入身份证号">
+                                <span class="help-block">密码默认为身份证号后六位！</span>
                             </div>
                         </div>
                         <div class="form-group">
@@ -181,10 +182,13 @@
         };
         $("#validate").validate({
             submitHandler: function(){
+                    var obj=$('form').serializeObject();
+                    obj['admin']=2
+                    obj['status']=1
                     $.ajax({
-                    url:"/student/add",
+                    url:"/addUser",
                     type:"POST",
-                    data:JSON.stringify($('form').serializeObject()),
+                    data:JSON.stringify(obj),
                     contentType:"application/json",
                     dataType:"json",
                     success:function(data){

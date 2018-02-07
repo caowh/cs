@@ -2,6 +2,7 @@ package com.lyc.controller;
 
 
 import com.lyc.entity.User;
+import com.lyc.service.FoodService;
 import com.lyc.service.UserService;
 import com.lyc.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,22 +25,22 @@ public class MainController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "saveUser", method = RequestMethod.GET)
+    @Autowired
+    private FoodService foodService;
+
+    @RequestMapping(value = "getVersion", method = RequestMethod.GET)
     @ResponseBody
-    public String saveUser(){
-        User user=new User();
-        user.setUsername("admin");
-        user.setPassword("admin");
-        user.setSex("男");
-        user.setStatus(0);
-        user.setAdmin(0);
-        userService.save(user);
-        return "success!";
+    public String getVersion(){
+        return "v1.0.0.20180207";
     }
 
     @RequestMapping(value = "index")
     public  String index(HttpServletRequest request, Model model){
-        return Utils.index(request,model,"index");
+        String result=Utils.index(request,model,"index");
+        if(model.asMap().get("content").toString().equals("order")){
+            model.addAttribute("foods",foodService.getFoods());
+        }
+        return result;
     }
 
     @RequestMapping(value = "logout")
@@ -47,6 +48,8 @@ public class MainController {
         request.getSession().setAttribute("user",null);
         return "logout";
     }
+
+
 
     @RequestMapping("userList")
     @ResponseBody
@@ -61,8 +64,12 @@ public class MainController {
 
     @RequestMapping("updateUser")
     @ResponseBody
-    public Map updateUser(@RequestBody User user){
+    public Map updateUser(@RequestBody User user,HttpServletRequest request){
         Map map=new HashMap();
+        if(user.getId()==0){
+            User cUser=(User)request.getSession().getAttribute("user");
+            user.setId(cUser.getId());
+        }
         try {
             userService.update(user);
             map.put("result","success");
@@ -78,4 +85,41 @@ public class MainController {
         return map;
     }
 
+
+    @RequestMapping("addUser")
+    @ResponseBody
+    public Map addUser(@RequestBody User user){
+        Map map=new HashMap();
+        user.setPassword(user.getIdentify().substring(12,18));
+        try {
+            userService.save(user);
+            map.put("result","success");
+            map.put("id",user.getId());
+        } catch (Exception e) {
+            map.put("result","failed");
+            String message=e.getMessage();
+            if(message.contains("UK_9l5en6oc0n83mdf145gralf06")){
+                map.put("message","身份证号码已存在");
+            }else {
+                map.put("message",e.getMessage());
+            }
+
+        }
+        return map;
+    }
+
+
+    @RequestMapping("/deleteUserByIds")
+    @ResponseBody
+    public Map deleteUserByIds(@RequestBody int[] ids){
+        Map map=new HashMap();
+        try {
+            userService.deleteList(ids);
+            map.put("result","success");
+        } catch (Exception e) {
+            map.put("result","failed");
+            map.put("message",e.getMessage());
+        }
+        return map;
+    }
 }

@@ -98,10 +98,57 @@
   <script type="text/javascript" src="/assets/js/plugins.form-components.js">
   </script>
   <script>
+      function updatePwd() {
+          bootbox.dialog({
+              title : "修改密码",
+              message : "<div class='well ' style='margin-top:25px;'><form class='form-horizontal' role='form'><div class='form-group'><label class='col-sm-3 control-label no-padding-right' for='txtNewPwd1'>新密码</label><div class='col-sm-9'><input type='password' id='txtNewPwd1' data-rule-required='true' data-rule-rangelength='[6,16]' data-msg-rangelength='字符长度必须在{0}-{1}之间' data-msg-required='请输入密码' placeholder='请输入新密码' class='col-xs-10 col-sm-5 form-control' /></div></div><div class='space-4'></div><div class='form-group'><label class='col-sm-3 control-label no-padding-right' for='txtNewPwd2'>确认新密码</label><div class='col-sm-9'><input type='password' id='txtNewPwd2'  data-rule-required='true' data-rule-rangelength='[6,16]' data-msg-rangelength='字符长度必须在{0}-{1}之间' data-msg-required='请输入密码' placeholder='再次输入新密码' class='col-xs-10 col-sm-5 form-control' /></div></div></form></div>",
+              buttons : {
+                  "success" : {
+                      "label" : "<i class='icon-ok'></i> 保存",
+                      "className" : "btn-sm btn-success",
+                      "callback" : function() {
+                          var txt2 = $("#txtNewPwd1").val();
+                          var txt3 = $("#txtNewPwd2").val();
+
+                          if(txt2 == "" || txt3 == ""){
+                              bootbox.alert("新密码不能为空！");
+                              return false;
+                          }
+                          if(txt2 != txt3 ){
+                              bootbox.alert("两次输入不一致，请重新输入!");
+                              return false;
+                          }
+                          $.ajax({
+                              url:"/updateUser",
+                              type:"POST",
+                              data:JSON.stringify({password:txt2}),
+                              contentType:"application/json",
+                              dataType:"json",
+                              success:function(data){
+                                  if(data.result=="success"){
+                                      bootbox.alert('密码修改成功！')
+                                  }else {
+                                      bootbox.alert('密码修改失败，'+data.message)
+                                  }
+                              }
+                          });
+                      }
+                  },
+                  "cancel" : {
+                      "label" : "<i class='icon-info'></i> 取消",
+                      "className" : "btn-sm btn-danger",
+                      "callback" : function() { }
+                  }
+              }
+          });
+      }
       $(document).ready(function() {
           App.init();
           Plugins.init();
           FormComponents.init()
+          $.get('/getVersion',function (data) {
+              $('.navbar-brand span').html(data)
+          })
       });
   </script>
   <script type="text/javascript" src="/assets/js/custom.js">
@@ -122,16 +169,11 @@
       </li>
     </ul>
     <a class="navbar-brand" href="/index">
-      <img src="/assets/img/logo.png" alt="logo" />
+      <img src="/assets/img/logo.png" alt="" />
       <strong>
-        Me
+        校园一卡通管理系统
       </strong>
-      Admin
-    </a>
-    <a href="#" class="toggle-sidebar bs-tooltip" data-placement="bottom"
-       data-original-title="左侧菜单控制">
-      <i class="icon-reorder">
-      </i>
+      <span></span>
     </a>
     <ul class="nav navbar-nav navbar-right">
       <li class="dropdown user">
@@ -146,10 +188,10 @@
         </a>
         <ul class="dropdown-menu">
           <li>
-            <a href="pages_user_profile.html">
+            <a href="#" onclick="updatePwd()">
               <i class="icon-user">
               </i>
-              我的资料
+              修改密码
             </a>
           </li>
           <li class="divider">

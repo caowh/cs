@@ -35,15 +35,20 @@ public class Utils {
             }
         }else if(user.getAdmin()==1){
             model.addAttribute("nav"," <li>\n" +
-                    "          <a href=\"javascript:void(0);\">\n" +
+                    "          <a href=\"/student\">\n" +
                     "            <i class=\"icon-desktop\">\n" +
                     "            </i>\n" +
                     "            学生一卡通管理\n" +
                     "          </a>\n" +
                     "        </li>");
+            if(module.equals("index")){
+                model.addAttribute("content","student");
+            }else {
+                model.addAttribute("content",module);
+            }
         }else {
             model.addAttribute("nav","<li>\n" +
-                    "          <a href=\"javascript:void(0);\">\n" +
+                    "          <a href=\"/order\">\n" +
                     "            <i class=\"icon-desktop\">\n" +
                     "            </i>\n" +
                     "            食堂就餐\n" +
@@ -56,6 +61,11 @@ public class Utils {
                     "            图书借阅\n" +
                     "          </a>\n" +
                     "        </li>");
+            if(module.equals("index")){
+                model.addAttribute("content","order");
+            }else {
+                model.addAttribute("content",module);
+            }
         }
         return "index";
     }

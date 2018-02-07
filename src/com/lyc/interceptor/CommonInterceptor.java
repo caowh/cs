@@ -17,9 +17,6 @@ import java.util.List;
 public class CommonInterceptor extends HandlerInterceptorAdapter {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    private List<String> ignoreUrls;
-
-
     /**
      * 在业务处理器处理请求之前被调用
      * 如果返回false
@@ -43,19 +40,22 @@ public class CommonInterceptor extends HandlerInterceptorAdapter {
         log.info("contextPath:"+contextPath);
         log.info("url:"+url);
 
-        for (String ignoreUrl: ignoreUrls) {
-            if(ignoreUrl.equals(url)){
-                return true;
-            }
-        }
 
         User user =  (User) request.getSession().getAttribute("user");
         if(user == null){
             response.setCharacterEncoding("UTF-8");
             log.info("Interceptor：跳转到login页面！");
-            request.getRequestDispatcher("login.jsp").include(request, response);
+            request.getRequestDispatcher("/login.jsp").include(request, response);
             return false;
-        }else
+        }else{
+            int admin=user.getAdmin();
+            if((url.contains("/student")&&(admin!=1&&admin!=3))||(url.contains("/normalManager")&&(admin!=3))||(url.contains("/order")&&(admin!=2))){
+                response.setCharacterEncoding("UTF-8");
+                log.info("Interceptor：跳转到无权限页面！");
+                request.getRequestDispatcher("/401.jsp").include(request, response);
+                return false;
+            }
+        }
             return true;
     }
 
@@ -83,9 +83,5 @@ public class CommonInterceptor extends HandlerInterceptorAdapter {
                                 HttpServletResponse response, Object handler, Exception ex)
             throws Exception {
         log.info("==============执行顺序: 3、afterCompletion================");
-    }
-
-    public void setIgnoreUrls(List<String> ignoreUrls) {
-        this.ignoreUrls = ignoreUrls;
     }
 }
