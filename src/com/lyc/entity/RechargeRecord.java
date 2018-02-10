@@ -4,32 +4,32 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
- * Created by user on 2018/2/7.
+ * Created by user on 2018/2/8.
  */
 @Data
-@Table
 @Entity
-public class Food {
+@Table
+public class RechargeRecord {
 
     @Id
-    @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column
-    private String name;
+    private int user_id;
 
     @Column
-    private BigDecimal price;
+    private Date time;
 
     @Column
-    private String description;
+    private BigDecimal before_money;
 
     @Column
-    private int leftCount;
+    private BigDecimal end_money;
 
-    @Version
-    private Long version;
+    @Column
+    private String type;
 }

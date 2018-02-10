@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <div class="container">
     <div class="page-header">
         <div class="page-title">
@@ -61,7 +62,7 @@
                                 </tr>
                                 <tr>
                                     <td style="width: 70px">剩余数量：</td>
-                                    <td  style="color: #468dee">${foods.get(0).left}</td>
+                                    <td  style="color: #468dee">${foods.get(0).leftCount}</td>
                                 </tr>
                                 <tr>
                                     <td style="width: 70px">购买数量：</td>
@@ -88,7 +89,7 @@
                                 </tr>
                                 <tr>
                                     <td style="width: 70px">剩余数量：</td>
-                                    <td  style="color: #468dee">${foods.get(1).left}</td>
+                                    <td  style="color: #468dee">${foods.get(1).leftCount}</td>
                                 </tr>
                                 <tr>
                                     <td style="width: 70px">购买数量：</td>
@@ -115,7 +116,7 @@
                                 </tr>
                                 <tr>
                                     <td style="width: 70px">剩余数量：</td>
-                                    <td  style="color: #468dee">${foods.get(2).left}</td>
+                                    <td  style="color: #468dee">${foods.get(2).leftCount}</td>
                                 </tr>
                                 <tr>
                                     <td style="width: 70px">购买数量：</td>
@@ -142,7 +143,7 @@
                                 </tr>
                                 <tr>
                                     <td style="width: 70px">剩余数量：</td>
-                                    <td  style="color: #468dee">${foods.get(3).left}</td>
+                                    <td  style="color: #468dee">${foods.get(3).leftCount}</td>
                                 </tr>
                                 <tr>
                                     <td style="width: 70px">购买数量：</td>
@@ -167,18 +168,26 @@
                     </h4>
                 </div>
                 <div class="widget-content">
-                    <div class="tab-content" id="alert2">
-                        <div class="alert alert-danger hide-default">
-                            <i class="icon-remove close" data-dismiss="alert">
-                            </i>
-                            <span></span>
-                        </div>
-                        <div class="alert alert-success hide-default">
-                            <i class="icon-remove close" data-dismiss="alert">
-                            </i>
-                            <span></span>
-                        </div>
-                    </div>
+                    <table id="Datable" class="table table-striped table-bordered table-hover table-checkable">
+                        <thead>
+                        <tr>
+                            <th>订单ID</th>
+                            <th>详情</th>
+                            <th>消费时间</th>
+                            <th>金额</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach items="${orders}" var="order">
+                            <tr>
+                                <td>${order.id}</td>
+                                <td>${order.msg}</td>
+                                <td>${order.time}</td>
+                                <td>${order.cost}</td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -192,18 +201,74 @@
             isNaN(parseInt(num))?t.value=0:t.value=parseInt(num);
         }
     }
+    function accMul(arg1,arg2){
+
+        var m=0,s1=arg1.toString(),s2=arg2.toString();
+
+        try{m+=s1.split(".")[1].length}catch(e){}
+
+        try{m+=s2.split(".")[1].length}catch(e){}
+
+        return Number(s1.replace(".",""))*Number(s2.replace(".",""))/Math.pow(10,m)
+
+    }
+    function accAdd(arg1,arg2){
+
+        var r1,r2,m;
+
+        try{r1=arg1.toString().split(".")[1].length}catch(e){r1=0}
+
+        try{r2=arg2.toString().split(".")[1].length}catch(e){r2=0}
+
+        m=Math.pow(10,Math.max(r1,r2));
+
+        return (accMul(arg1,m)+accMul(arg2,m))/m;
+
+    }
     $(document).ready(function () {
+        $('#Datable').DataTable({
+            language:{
+                sProcessing : "处理中...",
+                sLengthMenu : "显示 _MENU_ 项结果",
+                sZeroRecords : "没有匹配结果",
+                sInfo : "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                sInfoEmpty : "显示第 0 至 0 项结果，共 0 项",
+                sInfoFiltered : "(由 _MAX_ 项结果过滤)",
+                sInfoPostFix : "",
+                sSearch : "",
+                searchPlaceholder : "关键字搜索",
+                sUrl : "",
+                sEmptyTable : "表中数据为空",
+                sLoadingRecords : "载入中...",
+                sInfoThousands : ",",
+                oPaginate : {
+                    sFirst : "首页",
+                    sPrevious : "上页",
+                    sNext : "下页",
+                    sLast : "末页"
+                },
+                oAria : {
+                    sSortAscending : ": 以升序排列此列",
+                    sSortDescending : ": 以降序排列此列"
+                }
+            },
+            order:[0,'desc']
+        });
         $("#validate").validate({
             submitHandler: function(){
                 var money=0;
                 var n1=$('table:eq(0) input').val()
-                if(n1!=""&&n1>0)money+=15.5*n1;
+                var price1=$('table:eq(0) tr:eq(1) td:eq(1)').html()
+                if(n1!=""&&n1>0)money=accAdd(money,accMul(price1,n1));
                 var n2=$('table:eq(1) input').val()
-                if(n2!=""&&n2>0)money+=9.9*n2;
+                var price2=$('table:eq(1) tr:eq(1) td:eq(1)').html()
+                if(n2!=""&&n2>0)money=accAdd(money,accMul(price2,n2));
                 var n3=$('table:eq(2) input').val()
-                if(n3!=""&&n3>0)money+=9.9*n3;
+                var price3=$('table:eq(2) tr:eq(1) td:eq(1)').html()
+                if(n3!=""&&n3>0)money=accAdd(money,accMul(price3,n3));
                 var n4=$('table:eq(3) input').val()
-                if(n4!=""&&n4>0)money+=22*n4;
+                var price4=$('table:eq(3) tr:eq(1) td:eq(1)').html()
+                if(n4!=""&&n4>0)money=accAdd(money,accMul(price4,n4));
                 if(money==0){bootbox.alert('请先选择一项，填写购买数量！');return false}
                 bootbox.confirm('您共需花费'+money+'元，是否确认购买？',function (confirmed) {
                         if(confirmed===true){
@@ -215,11 +280,9 @@
                                 dataType:"json",
                                 success:function(data){
                                     if(data.result=="success"){
-                                        bootbox.alert('够餐成功！')
                                         window.location.href='/order';
                                     }else {
-                                        $('#alert1 .alert-danger span').html('够餐失败，'+data.message)
-                                        $('#alert1 .alert-danger').removeClass('hide-default')
+                                        bootbox.alert('够餐失败，'+data.message)
                                     }
                                 }
                             });

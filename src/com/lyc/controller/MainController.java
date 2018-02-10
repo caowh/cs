@@ -3,6 +3,8 @@ package com.lyc.controller;
 
 import com.lyc.entity.User;
 import com.lyc.service.FoodService;
+import com.lyc.service.OrderService;
+import com.lyc.service.RechargeRecordService;
 import com.lyc.service.UserService;
 import com.lyc.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +31,12 @@ public class MainController {
     @Autowired
     private FoodService foodService;
 
+    @Autowired
+    private RechargeRecordService rechargeRecordService;
+
+    @Autowired
+    private OrderService orderService;
+
     @RequestMapping(value = "getVersion", method = RequestMethod.GET)
     @ResponseBody
     public String getVersion(){
@@ -39,8 +48,35 @@ public class MainController {
         String result=Utils.index(request,model,"index");
         if(model.asMap().get("content").toString().equals("order")){
             model.addAttribute("foods",foodService.getFoods());
+            User user =  (User) request.getSession().getAttribute("user");
+            model.addAttribute("orders",orderService.findOrders(user.getId()));
         }
         return result;
+    }
+
+    @RequestMapping(value = "rechargePage")
+    public  String rechargePage(HttpServletRequest request, Model model){
+        User user =  (User) request.getSession().getAttribute("user");
+        model.addAttribute("money",userService.get(user.getId()).getMoney());
+        model.addAttribute("rechargeRecords",rechargeRecordService.getRechargeRecords(user.getId()));
+        return Utils.index(request,model,"rechargePage");
+    }
+
+    @RequestMapping("recharge")
+    @ResponseBody
+    public Map recharge(@RequestBody Map map,HttpServletRequest request){
+        Map map1=new HashMap();
+        String type=map.get("type").toString();
+        BigDecimal money= Utils.getBigDecimal(map.get("money"));
+        User user =  (User) request.getSession().getAttribute("user");
+        try {
+            userService.modifyToRecharge(money,type,user.getId());
+            map1.put("result","success");
+        } catch (Exception e) {
+            map1.put("result","failed");
+            map1.put("message",e.getMessage());
+        }
+        return map1;
     }
 
     @RequestMapping(value = "logout")

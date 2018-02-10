@@ -12,7 +12,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0"
   />
-  <title>Bootstrap3响应式后台管理系统模版MeAdmin</title>
+  <title>校园一卡通管理系统</title>
   <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"
   />
   <!--[if lt IE 9]>
@@ -187,6 +187,7 @@
           </i>
         </a>
         <ul class="dropdown-menu">
+          ${rechargePage}
           <li>
             <a href="#" onclick="updatePwd()">
               <i class="icon-user">

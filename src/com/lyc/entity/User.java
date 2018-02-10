@@ -4,6 +4,7 @@ package com.lyc.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
@@ -47,4 +48,10 @@ public class User {
 
     @Column(unique=true)
     private String identify;
+
+    @Column
+    private BigDecimal money;
+
+    @Version
+    private Long version;
 }

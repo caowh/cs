@@ -1,13 +1,19 @@
 package com.lyc.service;
 
+import com.lyc.entity.RechargeRecord;
 import com.lyc.entity.User;
+import org.hibernate.LockMode;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -138,5 +144,19 @@ public class UserService extends HibernateDaoSupport{
 
     public User get(int i) {
         return getHibernateTemplate().get(User.class,i);
+    }
+
+    public void modifyToRecharge(BigDecimal money, String type,int id) {
+        User user=getHibernateTemplate().load(User.class,id, LockMode.PESSIMISTIC_WRITE);
+        BigDecimal before_money=user.getMoney();
+        user.setMoney(user.getMoney().add(money));
+        RechargeRecord rechargeRecord=new RechargeRecord();
+        rechargeRecord.setBefore_money(before_money);
+        rechargeRecord.setEnd_money(user.getMoney());
+        rechargeRecord.setTime(new Date());
+        rechargeRecord.setUser_id(user.getId());
+        rechargeRecord.setType(type);
+        getHibernateTemplate().save(user);
+        getHibernateTemplate().save(rechargeRecord);
     }
 }
