@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Date;
 
 /**
  * Created by user on 2018/2/1.
@@ -57,7 +58,7 @@ public class Utils {
                     "          </a>\n" +
                     "        </li>\n" +
                     "        <li>\n" +
-                    "          <a href=\"javascript:void(0);\">\n" +
+                    "          <a href=\"/book\">\n" +
                     "            <i class=\"icon-desktop\">\n" +
                     "            </i>\n" +
                     "            图书借阅\n" +
@@ -95,5 +96,17 @@ public class Utils {
             }
         }
         return ret;
+    }
+
+    /**
+     * 通过时间秒毫秒数判断两个时间的间隔
+     * @param date1
+     * @param date2
+     * @return
+     */
+    public static int differentDaysByMillisecond(Date date1,Date date2)
+    {
+        int days = (int) ((date2.getTime() - date1.getTime()) / (1000*3600*24));
+        return days;
     }
 }

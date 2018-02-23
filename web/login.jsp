@@ -12,7 +12,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0"
   />
-  <title>Bootstrap3响应式后台管理系统模版MeAdmin 用户登录页面</title>
+  <title>校园一卡通管理系统</title>
   <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"
   />
   <link href="/assets/css/main.css" rel="stylesheet" type="text/css" />
@@ -57,8 +57,8 @@
 <div class="logo">
   <img src="/assets/img/logo.png" alt="logo" />
   <strong>
-    Boostrap3后台模版-Me
-  </strong>Admin</div>
+    校园一卡通管理系统
+  </strong></div>
 <div class="box">
   <div class="content">
     <form class="form-vertical login-form">

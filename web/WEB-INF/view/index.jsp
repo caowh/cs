@@ -147,7 +147,7 @@
           Plugins.init();
           FormComponents.init()
           $.get('/getVersion',function (data) {
-              $('.navbar-brand span').html(data)
+              $('.navbar-brand span').html(data.substring(1,data.length-1))
           })
       });
   </script>
@@ -172,8 +172,8 @@
       <img src="/assets/img/logo.png" alt="" />
       <strong>
         校园一卡通管理系统
-      </strong>
-      <span></span>
+      </strong>(
+      <span></span>)
     </a>
     <ul class="nav navbar-nav navbar-right">
       <li class="dropdown user">

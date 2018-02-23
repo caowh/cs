@@ -9,6 +9,9 @@ var Login=function(){var b=function(){if($.fn.uniform){$(":radio.uniform, :check
                     window.location.href="/index"
                 }else
                     $(".login-form .alert-danger:eq(1)").show();
+                    setTimeout(function () {
+                        $(".login-form .alert-danger:eq(1)").hide();
+                    },3000)
             })
 
     }}

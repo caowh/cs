@@ -40,7 +40,7 @@ public class MainController {
     @RequestMapping(value = "getVersion", method = RequestMethod.GET)
     @ResponseBody
     public String getVersion(){
-        return "v1.0.0.20180207";
+        return "v1.4.7.20180223";
     }
 
     @RequestMapping(value = "index")
